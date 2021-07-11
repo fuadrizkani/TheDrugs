@@ -21,14 +21,21 @@ public class TampilActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tampil);
 
+        //Menghubungkan variabel imgObat dengan componen iv_obat pada Layout
         ImageView imgObat = findViewById(R.id.iv_obat);
+        //Menghubungkan variabel tvNama dengan componen tv_nama_obat pada Layout
         TextView tvNama = findViewById(R.id.tv_nama_obat);
+        //Menghubungkan variabel tvTanggal dengan componen tv_tanggal_kadaluarsa pada Layout
         TextView tvTanggal = findViewById(R.id.tv_tanggal_kadaluarsa);
+        //Menghubungkan variabel tvEfek dengan componen tv_efek pada Layout
         TextView tvEfek = findViewById(R.id.tv_efek);
+        //Menghubungkan variabel tvHarga dengan componen tv_harga pada Layout
         TextView tvHarga = findViewById(R.id.tv_harga);
+        //Menghubungkan variabel tvKomposisi dengan componen tv_komposisi pada Layout
         TextView tvKomposisi = findViewById(R.id.tv_komposisi);
-
         Intent terimaData = getIntent();
+
+        //mengSet tvNama,tvTanggal,tvEfek,tvHarga,dan tvKomposisi sesuai data yang kita inginkan
         tvNama.setText(terimaData.getStringExtra("NAMA"));
         tvTanggal.setText(terimaData.getStringExtra("TANGGAL"));
         tvEfek.setText(terimaData.getStringExtra("EFEK"));
@@ -36,6 +43,7 @@ public class TampilActivity extends AppCompatActivity {
         tvKomposisi.setText(terimaData.getStringExtra("KOMPOSISI"));
         String imgLocation = terimaData.getStringExtra("GAMBAR");
 
+        //Mengambil gambar
         try {
             assert imgLocation != null;
             File file = new File(imgLocation);
@@ -44,6 +52,8 @@ public class TampilActivity extends AppCompatActivity {
             imgObat.setContentDescription(imgLocation);
         } catch (FileNotFoundException er) {
             er.printStackTrace();
+
+            //menampilkan popup dengan pesan "Gagal mengambil gambar dari media penyimpanan"
             Toast.makeText(this, "Gagal mengambil gambar dari media penyimpanan", Toast.LENGTH_SHORT).show();
         }
     }

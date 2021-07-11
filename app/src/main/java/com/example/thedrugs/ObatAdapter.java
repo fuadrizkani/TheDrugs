@@ -22,8 +22,10 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class ObatAdapter extends RecyclerView.Adapter<ObatAdapter.ObatViewHolder> {
+    //deklarasi Context dan ArrayList<Obat>
     private Context context;
     private ArrayList<Obat> dataObat;
+    //deklarasi tanggal
     private SimpleDateFormat sdformat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
     ObatAdapter(Context context, ArrayList<Obat> dataObat) {
@@ -31,6 +33,7 @@ public class ObatAdapter extends RecyclerView.Adapter<ObatAdapter.ObatViewHolder
         this.dataObat = dataObat;
     }
 
+    //membuat createViewHolder
     @NonNull
     @Override
     public ObatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -39,6 +42,7 @@ public class ObatAdapter extends RecyclerView.Adapter<ObatAdapter.ObatViewHolder
         return new ObatViewHolder (view);
     }
 
+    //menghubungkan data dengan view holder
     @Override
     public void onBindViewHolder(@NonNull ObatViewHolder holder, int position) {
         Obat tempObat = dataObat.get(position);
@@ -50,6 +54,7 @@ public class ObatAdapter extends RecyclerView.Adapter<ObatAdapter.ObatViewHolder
         holder.gambar = tempObat.getGambar();
         holder.komposisi = tempObat.getKomposisi();
 
+        //mengambil gambar dari media penyimpanan
         try {
             File file = new File(holder.gambar);
             Bitmap bitmap = BitmapFactory.decodeStream((new FileInputStream(file)));
@@ -57,11 +62,14 @@ public class ObatAdapter extends RecyclerView.Adapter<ObatAdapter.ObatViewHolder
             holder.imgObat.setContentDescription(holder.gambar);
         }catch (FileNotFoundException e) {
             e.printStackTrace();
+
+            //menampilkan popup dengan pesan "Gagal mengambil gambar dari media penyimpanan"
             Toast.makeText(context, "Gagal mengambil gambar dari media penyimpanan", Toast.LENGTH_SHORT).show();
         }
 
     }
 
+    //membuat getItemCount
     @Override
     public int getItemCount() {
         return dataObat.size();
@@ -69,6 +77,7 @@ public class ObatAdapter extends RecyclerView.Adapter<ObatAdapter.ObatViewHolder
 
     public class ObatViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
+        //Deklarasi variabel imageView,TextView,int dan String
         private ImageView imgObat;
         private TextView tvNama, tvHarga, tvEfek;
         private int idObat;
@@ -84,6 +93,7 @@ public class ObatAdapter extends RecyclerView.Adapter<ObatAdapter.ObatViewHolder
             itemView.setOnLongClickListener(this);
         }
 
+        //menekan tombol untuk melihat data obat
         @Override
         public void onClick(View v) {
             Intent bukaObat = new Intent(context, TampilActivity.class);
@@ -97,6 +107,7 @@ public class ObatAdapter extends RecyclerView.Adapter<ObatAdapter.ObatViewHolder
             context.startActivity(bukaObat);
         }
 
+        //menekan tombol dengan lama untuk mengupdate data obat
         @Override
         public boolean onLongClick(View v) {
             Intent bukaInput = new Intent(context, InputActivity.class);

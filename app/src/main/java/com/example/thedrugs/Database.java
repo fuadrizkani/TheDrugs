@@ -16,16 +16,27 @@ import java.util.Locale;
 
 public class Database extends SQLiteOpenHelper {
 
+    //membuat versi database
     private final static int DATABASE_VERSION = 1;
+    //membuat nama database
     private final static String DATABASE_NAME = "db_obatku";
+    //membuat tabel obat
     private final static String TABLE_OBAT = "t_obat";
+    //membuat key id obat
     private final static String KEY_ID_OBAT = "ID_obat";
+    //membuat key nama obat
     private final static String KEY_NAMA_OBAT = "Nama";
+    //membuat key tanggal kadaluarsa
     private final static String KEY_TGL_KADALUARSA = "Kadaluarsa";
+    //membuat key gambar
     private final static String KEY_GAMBAR = "Gambar";
+    //membuat key efek
     private final static String KEY_EFEK = "Efek";
+    //membuat key harga
     private final static String KEY_HARGA = "Harga";
+    //membuat key komposisi
     private final static String KEY_KOMPOSISI = "Komposisi";
+    //menentukan tanggal
     private SimpleDateFormat sdFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
     Database(Context ctx) {
@@ -36,6 +47,7 @@ public class Database extends SQLiteOpenHelper {
         super(context, name, factory, version);
     }
 
+    //membuat tabel obat
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_TABLE_BERITA = "CREATE TABLE " + TABLE_OBAT
@@ -47,6 +59,7 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_BERITA);
     }
 
+    //untuk mengupdate tabel obat
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_OBAT;
@@ -54,6 +67,7 @@ public class Database extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    //untuk menginput data obat ke setiap key
     void tambahObat(Obat dataObat) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -68,6 +82,7 @@ public class Database extends SQLiteOpenHelper {
         db.close();
     }
 
+    //untuk mengedit data obat yang tersedia
     void editObat(Obat dataObat) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -82,14 +97,18 @@ public class Database extends SQLiteOpenHelper {
         db.close();
     }
 
+    //untuk menghapus data obat yang tersedia
     void hapusObat(int idObat) {
         SQLiteDatabase db = getWritableDatabase();
         db.delete(TABLE_OBAT, KEY_ID_OBAT + "=?", new String[]{String.valueOf(idObat)});
         db.close();
     }
 
+    //menambahkan arraylist data obat
     ArrayList<Obat> getAllBerita() {
         ArrayList<Obat> dataObat = new ArrayList<>();
+
+        //mengambil database dari tabel obat
         String query = "SELECT * FROM " + TABLE_OBAT;
         SQLiteDatabase db = getReadableDatabase();
         Cursor csr = db.rawQuery(query, null);
